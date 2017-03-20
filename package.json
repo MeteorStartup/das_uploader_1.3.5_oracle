@@ -1,0 +1,13 @@
+{
+  "name": "dasuploader",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "fibers": "^1.0.14",
+    "meteor-node-stubs": "~0.2.0",
+    "mysql": "^2.11.1",
+    "mssql": "3.3.0"
+  }
+}

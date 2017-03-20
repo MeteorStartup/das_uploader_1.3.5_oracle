@@ -1,0 +1,118 @@
+<template name="statAccumDetail">
+  <div id="statAccumDetail">
+    <div class="contents">
+      <h2 class="tit01">서비스별 누적 통계(상세)</h2>
+      <div class="inner_box">
+        <div class="section">
+          <div class="tform01 srch_form">
+            <table>
+              <colgroup>
+                <col style="width:13%">
+                <col style="width:*">
+              </colgroup>
+              <tbody>
+              <tr>
+                <th scope="row" class="bul_txt01 pre"><span>서   비   스</span></th>
+                <td>
+                  <!-- select -->
+                  <select name="SERVICE_ID">
+                    {{#each services}}
+                      <option value="{{SERVICE_ID}}">{{SERVICE_NAME}}</option>
+                    {{/each}}
+                  </select>
+                  <!-- //select -->
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tr mt30">
+          <a href="#" id="btnExcel"><img src="/images/btn_excel.png" alt="엑셀 다운로드"></a>
+        </div>
+
+        <div class="both mt10">
+          <!-- 						<div class="section harf chart1"> -->
+          <div class="section harf chart1">
+            <div class="tit">게시판별 업로드 분포율</div>
+            <div class="list">
+              <ul>
+                {{#each lists}}
+                  <li>
+                    <strong class="ico01"><span>■</span>{{BOARD_ID}}</strong>
+                    <span class="num" id="stat_lifetime_under_one_month">{{upCnt}} 건</span>
+                  </li>
+                {{/each}}
+                <li class="last">
+                  <strong class="ico05"><span>■</span>합계</strong>
+                  <span class="num" id="stat_lifetime_tot_cnt">{{업로드합계}} 건</span>
+                </li>
+              </ul>
+            </div>
+            <div class="pie-chart" id="pie-chart-1"></div>
+          </div>
+
+          <!-- 						<div class="section harf chart2"> -->
+          <div class="section harf chart1">
+            <div class="tit">게시판별 처리 분포율</div>
+            <div class="list">
+              <ul>
+                {{#each lists}}
+                  <li>
+                    <strong class="ico01" style="color: #40c5e5"><span>■</span>{{BOARD_ID}}</strong>
+                    <span class="num" id="stat_lifetime_under_one_month">{{delCnt}} 건</span>
+                  </li>
+                {{/each}}
+                <li class="last">
+                  <strong class="ico05"><span>■</span>합계</strong>
+                  <span class="num" id="stat_lifetime_tot_cnt">{{처리합계}} 건</span>
+                </li>
+              </ul>
+            </div>
+            <div class="pie-chart" id="pie-chart-2"></div>
+          </div>
+        </div>
+
+        <div class="section mt10">
+          <div class="tform01 col" id="div_excel_down">
+            <table>
+              <colgroup>
+                <col style="width:*">
+                <col style="width:20%">
+                <col style="width:20%">
+                <col style="width:20%">
+                <col style="width:20%">
+              </colgroup>
+              <thead>
+              <tr>
+                <th scope="col"><strong class="pre">BOARD ID</strong></th>
+                <th scope="col"><strong>업로드 건수</strong></th>
+                <th scope="col"><strong>처리 성공 건수</strong></th>
+                <th scope="col"><strong>잔여 건수</strong></th>
+                <th scope="col"><strong>오류 건수</strong></th>
+              </tr>
+              </thead>
+              <tbody id="stat_accum_list">
+              {{#each lists}}
+                <tr>
+                  <td class="txt_white pre" >{{BOARD_ID}}</td>
+                  <td>{{upCnt}}</td>
+                  <td>{{delCnt}}</td>
+                  <td>{{waitCnt}}</td>
+                  <td class="txt_result">{{errCnt}}</td>
+                </tr>
+              {{/each}}
+              </tbody>
+            </table>
+          </div>
+          <div class="btn_area tc mt10">
+            <a href="#" class="btns btn_large_ok" name="goToBack"><span>이전</span></a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>

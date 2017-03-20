@@ -1,0 +1,54 @@
+<template name="license">
+  <div id="license">
+    <div class="contents">
+      <h2 class="tit01">라이선스 관리</h2>
+      <div class="inner_box">
+        <div class="section uploader">
+          <div class="inner">
+            <strong>DAS Uploader Solution</strong>
+            <dl>
+              <dt>버전</dt>
+              <dd>DAS Uploader Solution V1.0</dd>
+            </dl>
+            {{#with licenseInfo}}
+            <dl>
+              <dt>라이선스 기간</dt>
+              <dd>{{시작일}} ~ {{종료일}}</dd>
+            </dl>
+            <dl>
+              <dt>Serial No</dt>
+              <dd>{{value}}</dd>
+            </dl>
+            {{/with}}
+          </div>
+          {{#if isAdminUser}}
+          <div class="btn_area tc mt70">
+            <a href="#" class="btns btn_large_ok btn_serial" name="showSerialInput"><span>라이선스 갱신</span></a>
+          </div>
+          {{/if}}
+        </div>
+
+      </div>
+
+      <div class="modal hide" style="z-index: 1011; position: fixed; padding: 0px; margin: -100px 0px 0px -210px; width: 420px; top: 40%; left: 50%; text-align: center; color: rgb(0, 0, 0); border: 0px; cursor: wait; background: transparent;">
+        <div class="pop_wrap" id="popSerial" style="width: 420px;">
+          <div class="tit">
+            <strong>Serial Number</strong>
+          </div>
+          <div class="con group">
+            <div class="txt_box">
+              발급받은 Serial Number를 입력하세요.
+              <input type="text" class="ip_txt tc mt20" style="width:200px" id="serialInp">
+            </div>
+          </div>
+          <div class="btn_area">
+            <a href="#" class="btns btn_large_ok btn_serial_check"><span>확인</span></a>
+            <a href="#" class="btns btn_large_cncl btn_close ml20"><span>취소</span></a>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</template>
