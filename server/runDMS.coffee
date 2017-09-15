@@ -2,6 +2,9 @@ future = require 'fibers/future'
 fibers = require 'fibers'
 mysql = require 'mysql'
 #oracle = require('oracle')
+
+dbDriver = {}
+
 Meteor.startup ->
   Meteor.methods
     tiberoTest: ->
@@ -83,9 +86,14 @@ Meteor.startup ->
                 BACKUP_PATH: service.백업파일경로
             , (err, rslt) ->
               if err
+                cl '============== FILE DELETE ERROR 111111 ====================='
                 cl err.toString()
-                unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
-                dasInfo.STATUS.push err.toString()
+
+                ## jwjin/1709150643  file 못 지운건 에러로 안침으로 변경
+#                unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
+#                dasInfo.STATUS.push err.toString()
+
+
 #                  Error: connect ECONNREFUSED is the key for agent conn error
 #                else
 #                  fibers ->
@@ -95,8 +103,10 @@ Meteor.startup ->
               else
 #                #rslt.contents가 success가 아니면 이 역시 실패
                 if rslt.content isnt 'success'
-                  unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
-                  dasInfo.STATUS.push rslt
+                  ## jwjin/1709150643  file 못 지운건 에러로 안침으로 변경
+#                  unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
+#                  dasInfo.STATUS.push rslt
+
                 else  #최종성공시 용량통계를 위한 처리용량 누적
                   CollectionServices.update SERVICE_ID: dasInfo.SERVICE_ID,
                     $inc: '용량통계.처리용량': dasInfo.UP_FSIZE
@@ -104,8 +114,10 @@ Meteor.startup ->
             fut.wait()
 
           catch err
-            unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
-            dasInfo.STATUS.push err.toString()
+            cl '============== FILE DELETE ERROR 22222222 ====================='
+            ## jwjin/1709150643  file 못 지운건 에러로 안침으로 변경
+#            unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
+#            dasInfo.STATUS.push err.toString()
 ##    delete query
       switch service?.DB정보?.DBMS종류
         when 'Tibero3'
@@ -201,7 +213,7 @@ Meteor.startup ->
             dasInfo.STATUS.push err.toString()
 
         when 'Oracle'
-          oracle = require('oracle')
+          unless dbDriver.oracle then dbDriver.oracle = require('oracle')
           try
             connectData =
               hostname: service.DB정보.DB_IP
@@ -212,18 +224,20 @@ Meteor.startup ->
 
             cl connectData
 
-            oracle.connect connectData, (err, connection) ->
+            dbDriver.oracle.connect connectData, (err, connection) ->
               if err
-                console.log 'Error connecting to db:', err
+                console.log '111111: Error connecting to db:', err
                 unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
                 dasInfo.STATUS.push err.toString()
+                connection.close()
                 return
               dasInfo.DEL_DB_QRY.forEach (query) ->
                 connection.execute query, [], (err, results) ->
                   if err
-                    console.log 'Error executing query:', err
+                    console.log '222222: Error executing query:', err
                     unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
                     dasInfo.STATUS.push err.toString()
+                    connection.close()
                     return
                   console.log results
                   connection.close()

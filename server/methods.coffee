@@ -30,6 +30,7 @@ Meteor.startup ->
       , (err, rslt) ->
         console.log err or rslt
     'insertDAS': (data) ->
+      cl '============ insert DAS ===================='
       cl data.dasInfo
       dasInfo = dataSchema 'DASInfo'
       dasInfo.origin = data.dasInfo
