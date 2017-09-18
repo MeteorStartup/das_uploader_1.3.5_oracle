@@ -43,8 +43,8 @@ Meteor.startup ->
   cl 'isLicenced : ' + isLicenced()
   setInterval ->
       fibers ->
-        if isLicenced()
-          runDMS()
+#        if isLicenced()
+        runDMS()
       .run()
   , 1000 * 60 * 60
 
