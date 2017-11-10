@@ -245,6 +245,8 @@ Meteor.startup ->
                       console.log '222222: Error executing query:', err
                       unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
                       dasInfo.STATUS.push err.toString()
+                      cl '***'
+                      cl dasInfo.STATUS
                     console.log '==results=='
                     console.log results
                     # call only when query is finished executing
