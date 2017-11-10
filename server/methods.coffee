@@ -218,10 +218,10 @@ Meteor.methods
                   dasInfo.STATUS.push err.toString()
                   return
                 console.log results
-                connection.close()
                 # call only when query is finished executing
                 return
               return
+            connection.close()
         catch err
           cl '####### DB ERROR #######'
           #        cl dasInfo.STATUS = err.toString()
