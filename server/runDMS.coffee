@@ -230,6 +230,7 @@ Meteor.startup ->
             cl connectData
 
             dbDriver.oracle.connect connectData, (err, connection) ->
+              cl '^^^^^^^^^^^^ run command ^^^^^^^^^^^^^^'
               connection = connection
               if err
                 console.log '111111: Error connecting to db:', err
