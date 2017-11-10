@@ -1,5 +1,3 @@
-#test commit
-
 future = require 'fibers/future'
 fibers = require 'fibers'
 mysql = require 'mysql'
