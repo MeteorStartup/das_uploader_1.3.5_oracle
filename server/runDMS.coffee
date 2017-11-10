@@ -27,7 +27,7 @@ Meteor.startup ->
         fut.return err or stderr or 'success'
       return fut.wait()
 
-  cl 'statup runDMS'
+  cl 'startup runDMS'
 
   isLicenced = ->
     encrypted = CollectionSettings.findOne(set_key: 'serial')?.value #등록일이 포함된 암호화 string
