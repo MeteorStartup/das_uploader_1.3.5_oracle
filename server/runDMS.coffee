@@ -236,7 +236,7 @@ Meteor.startup ->
                 unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
                 dasInfo.STATUS.push err.toString()
                 if connection?
-                  cl 'connection closed at normal !!'
+                  cl 'connection closed at err in try !!'
                   connection.close()
               else
                 dasInfo.DEL_DB_QRY.forEach (query, idx, arr) ->
@@ -254,7 +254,7 @@ Meteor.startup ->
 
           catch err
             if connection?
-              cl 'connection closed when try catched !!!'
+              cl 'connection closed in catched !!!'
               connection.close()
             cl '####### DB ERROR #######'
             cl err.toString()
