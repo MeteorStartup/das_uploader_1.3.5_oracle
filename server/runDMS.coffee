@@ -282,6 +282,7 @@ Meteor.startup ->
 
       #      최종 dasInfo update
       # jwjin/1609240855 최종적으로 'wait' 일 경우에만 성공
+      cl dasInfo.STATUS
       if dasInfo.STATUS is 'wait' then dasInfo.STATUS = 'success'
       CollectionDasInfos.update _id: dasInfo._id, dasInfo
 
