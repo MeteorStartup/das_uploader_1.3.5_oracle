@@ -242,6 +242,7 @@ Meteor.startup ->
                   fut.return()
               else
                 dasInfo.DEL_DB_QRY.forEach (query, idx, arr) ->
+                  fut2 = new future()
                   connection.execute query, [], (err, results) ->
                     if err
                       console.log '222222: Error executing query:', err
@@ -256,7 +257,9 @@ Meteor.startup ->
                       if connection?
                         cl 'connection closed at normal !!'
                         connection.close()
-                        fut.return()
+                        fut2.return()
+                  fut2.wait()
+                  fut.return()
             fut.wait()
           catch err
             cl '####### DB ERROR #######'
