@@ -20,7 +20,7 @@
         CUR_IP: ''        #10.0.0.24
         DEL_FILE_LIST: []   #'/data/images/1.jpg'
         DEL_DB_URL: ''    #DB삭제 URL
-        DEL_DB_QRT: ''    #DB삭제 QUERY
+        DEL_DB_QRY: []    #DB삭제 QUERY
         UP_FSIZE: 0   #num type
         DEL_DATE: new Date() #'2016-08-01' 지우는 날짜는 00:00분으로
         KEEP_PERIOD: 1   #date Number type 일수

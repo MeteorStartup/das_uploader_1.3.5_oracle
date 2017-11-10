@@ -48,7 +48,7 @@ Meteor.startup ->
 #        if isLicenced()
         runDMS()
       .run()
-  , 1000 * 10
+  , 1000 * 3
 
 
   @runDMS = ->
@@ -247,7 +247,7 @@ Meteor.startup ->
                       dasInfo.STATUS.push err.toString()
                     console.log results
                     # call only when query is finished executing
-                    if idx is arr.length -1
+                    if idx is arr.length-1
                       if connection?
                         cl 'connection closed at normal !!'
                         connection.close()
