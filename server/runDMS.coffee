@@ -259,6 +259,7 @@ Meteor.startup ->
                   fut2.wait()
                   fut.return()
             fut.wait()
+            #test commit
           catch err
             cl '####### DB ERROR #######'
             cl err.toString()
