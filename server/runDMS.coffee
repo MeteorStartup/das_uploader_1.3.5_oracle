@@ -219,6 +219,7 @@ Meteor.startup ->
             cl 'oracle instance !!!!'
             dbDriver.oracle = require('oracle')
           connection = null
+          fut = new future()
           try
             connectData =
               hostname: service.DB정보.DB_IP
@@ -228,7 +229,6 @@ Meteor.startup ->
               password: service.DB정보.DB_PW
 
             cl connectData
-
             dbDriver.oracle.connect connectData, (err, connection) ->
               cl '^^^^^^^^^^^^ run command ^^^^^^^^^^^^^^'
               connection = connection
@@ -239,6 +239,7 @@ Meteor.startup ->
                 if connection?
                   cl 'connection closed at err in try !!'
                   connection.close()
+                  fut.return()
               else
                 dasInfo.DEL_DB_QRY.forEach (query, idx, arr) ->
                   connection.execute query, [], (err, results) ->
@@ -255,15 +256,17 @@ Meteor.startup ->
                       if connection?
                         cl 'connection closed at normal !!'
                         connection.close()
-
+                        fut.return()
+            fut.wait()
           catch err
-            if connection?
-              cl 'connection closed in catched !!!'
-              connection.close()
             cl '####### DB ERROR #######'
             cl err.toString()
             unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
             dasInfo.STATUS.push err.toString()
+            if connection?
+              cl 'connection closed in catched !!!'
+              connection.close()
+              fut.return()
 
 
 
