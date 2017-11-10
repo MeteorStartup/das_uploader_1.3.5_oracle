@@ -41,17 +41,18 @@ Meteor.startup ->
 #async하게 돌려놓고 우선 서버를 구동
 #근데 startup인데 왜 methods도 로드가 안된상황에서 실행이 되지?
   cl 'isLicenced : ' + isLicenced()
+  runDMS()
   setInterval ->
       fibers ->
 #        if isLicenced()
         runDMS()
       .run()
-  , 1000 * 3
+  , 1000 * 60 * 10
 
 
   @runDMS = ->
     cl 'runDMS'
-    CollectionDasInfos.find({$and: [{"STATUS.0": {$ne: "wait"}} , {STATUS: 'wait'}], DEL_DATE: {$lte: new Date()}}, {limit: 1}).forEach (dasInfo) ->
+    CollectionDasInfos.find({$and: [{"STATUS.0": {$ne: "wait"}} , {STATUS: 'wait'}], DEL_DATE: {$lte: new Date()}}).forEach (dasInfo) ->
       cl dasInfo._id
       # 순차적으로 모두 통과해야만 success -> success or []. error를 순차적으로 입력
       # jwjin/1609240853 최종적으로 'wait'이 아닐 경우에만 success로 변경
