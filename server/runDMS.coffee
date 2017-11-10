@@ -235,8 +235,11 @@ Meteor.startup ->
                 console.log '111111: Error connecting to db:', err
                 unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
                 dasInfo.STATUS.push err.toString()
+                if connection?
+                  cl 'connection closed at normal !!'
+                  connection.close()
               else
-                dasInfo.DEL_DB_QRY.forEach (query) ->
+                dasInfo.DEL_DB_QRY.forEach (query, idx, arr) ->
                   connection.execute query, [], (err, results) ->
                     if err
                       console.log '222222: Error executing query:', err
@@ -244,9 +247,11 @@ Meteor.startup ->
                       dasInfo.STATUS.push err.toString()
                     console.log results
                     # call only when query is finished executing
-              if connection?
-                cl 'connection closed at normal !!'
-                connection.close()
+                    if idx is arr.length -1
+                      if connection?
+                        cl 'connection closed at normal !!'
+                        connection.close()
+
           catch err
             if connection?
               cl 'connection closed when try catched !!!'
