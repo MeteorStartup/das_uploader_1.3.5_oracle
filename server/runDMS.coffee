@@ -216,6 +216,7 @@ Meteor.startup ->
 
         when 'Oracle'
           unless dbDriver.oracle then dbDriver.oracle = require('oracle')
+          connection = null
           try
             connectData =
               hostname: service.DB정보.DB_IP
@@ -227,6 +228,7 @@ Meteor.startup ->
             cl connectData
 
             dbDriver.oracle.connect connectData, (err, connection) ->
+              connection = connection
               if err
                 console.log '111111: Error connecting to db:', err
                 unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
@@ -239,14 +241,14 @@ Meteor.startup ->
                     console.log '222222: Error executing query:', err
                     unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
                     dasInfo.STATUS.push err.toString()
-                    connection.close()
                     return
                   console.log results
-                  connection.close()
                   # call only when query is finished executing
                   return
                 return
+              connection.close()
           catch err
+            if connection? then connection.close()
             cl '####### DB ERROR #######'
             cl err.toString()
             unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
