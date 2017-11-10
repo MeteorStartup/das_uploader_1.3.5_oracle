@@ -215,7 +215,9 @@ Meteor.startup ->
             dasInfo.STATUS.push err.toString()
 
         when 'Oracle'
-          unless dbDriver.oracle then dbDriver.oracle = require('oracle')
+          unless dbDriver.oracle
+            cl 'oracle instance !!!!'
+            dbDriver.oracle = require('oracle')
           connection = null
           try
             connectData =
@@ -233,22 +235,22 @@ Meteor.startup ->
                 console.log '111111: Error connecting to db:', err
                 unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
                 dasInfo.STATUS.push err.toString()
+              else
+                dasInfo.DEL_DB_QRY.forEach (query) ->
+                  connection.execute query, [], (err, results) ->
+                    if err
+                      console.log '222222: Error executing query:', err
+                      unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
+                      dasInfo.STATUS.push err.toString()
+                    console.log results
+                    # call only when query is finished executing
+              if connection?
+                cl 'connection closed at normal !!'
                 connection.close()
-                return
-              dasInfo.DEL_DB_QRY.forEach (query) ->
-                connection.execute query, [], (err, results) ->
-                  if err
-                    console.log '222222: Error executing query:', err
-                    unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
-                    dasInfo.STATUS.push err.toString()
-                    return
-                  console.log results
-                  # call only when query is finished executing
-                  return
-                return
-              connection.close()
           catch err
-            if connection? then connection.close()
+            if connection?
+              cl 'connection closed when try catched !!!'
+              connection.close()
             cl '####### DB ERROR #######'
             cl err.toString()
             unless Array.isArray dasInfo.STATUS then dasInfo.STATUS = [dasInfo.STATUS]
