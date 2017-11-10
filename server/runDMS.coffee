@@ -41,7 +41,6 @@ Meteor.startup ->
 #async하게 돌려놓고 우선 서버를 구동
 #근데 startup인데 왜 methods도 로드가 안된상황에서 실행이 되지?
   cl 'isLicenced : ' + isLicenced()
-  runDMS()
   setInterval ->
       fibers ->
 #        if isLicenced()
@@ -293,3 +292,4 @@ Meteor.startup ->
       CollectionDasInfos.update _id: dasInfo._id, dasInfo
 
 
+  runDMS()    #실행 후 최초 1회 실행 위함
